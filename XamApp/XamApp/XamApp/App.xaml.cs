@@ -7,12 +7,18 @@ namespace XamApp
 {
     public partial class App : Application
     {
-        public App()
+
+        public static ContactRepository ContactRepo { get; private set; }
+
+        public App(string dbPath)
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            ContactRepo = new ContactRepository(dbPath);
+
+            MainPage = new XamApp.MainPage();
         }
+        
 
         protected override void OnStart()
         {

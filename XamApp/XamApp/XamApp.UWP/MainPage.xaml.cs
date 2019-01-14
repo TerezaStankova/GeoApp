@@ -21,7 +21,8 @@ namespace XamApp.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new XamApp.App());
+            string dbPath = FileAccessHelper.GetLocalFilePath("people.db3");
+            LoadApplication(new XamApp.App(dbPath));
         }
     }
 }

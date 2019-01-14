@@ -5,7 +5,7 @@ using SQLite;
 
 namespace XamApp.Models
 {
-    class Contact
+    public class Contact
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
