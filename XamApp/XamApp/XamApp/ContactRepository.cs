@@ -18,7 +18,7 @@ namespace XamApp
             conn.CreateTableAsync<Contact>().Wait();
         }
 
-        public async Task AddNewContactAsync(string name)
+        public async Task AddNewContactAsync(string name, string phoneNumber)
         {
             int result = 0;
             try
@@ -27,7 +27,10 @@ namespace XamApp
                 if (string.IsNullOrEmpty(name))
                     throw new Exception("Valid name required");
 
-                result = await conn.InsertAsync(new Contact { Name = name });
+                if (string.IsNullOrEmpty(phoneNumber))
+                    throw new Exception("Valid phone number required");
+
+                result = await conn.InsertAsync(new Contact { Name = name, PhoneNumber = phoneNumber});
 
                 StatusMessage = string.Format("{0} record(s) added [Name: {1})", result, name);
             }

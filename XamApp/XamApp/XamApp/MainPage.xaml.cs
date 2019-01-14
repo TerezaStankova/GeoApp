@@ -20,7 +20,7 @@ namespace XamApp
         {
             statusMessage.Text = "";
 
-            await App.ContactRepo.AddNewContactAsync(newName.Text);
+            await App.ContactRepo.AddNewContactAsync(newName.Text, newPhoneNumber.Text);
             statusMessage.Text = App.ContactRepo.StatusMessage;
         }
 

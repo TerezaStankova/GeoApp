@@ -22,6 +22,7 @@
            Placeholder="Enter name" />
 
         <Entry x:Name="newPhoneNumber"
+           Grid.Row="1"
            Placeholder="Enter phone number" />
 
         <Button Text="Add Contact"
@@ -42,6 +43,7 @@
                     <ViewCell Height="30">
                         <StackLayout Padding="5">
                             <Label Text="{Binding Name}" />
+                            <Label Text="{Binding PhoneNumber}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
