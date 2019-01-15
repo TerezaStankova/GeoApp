@@ -161,4 +161,13 @@
       <Name>XamApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\contact.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\face.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\delete.png" />
+  </ItemGroup>
 </Project>

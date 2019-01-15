@@ -4,18 +4,54 @@ using System.Linq;
 using System.Threading.Tasks;
 using XamApp.Models;
 using SQLite;
+using System.Collections.ObjectModel;
 
 namespace XamApp
-{
+{  
+
     public class ContactRepository
     {
-        SQLiteAsyncConnection conn;
+        public static IList<Contact> Contacts { get; private set; }
+        SQLiteAsyncConnection database;
         public string StatusMessage { get; set; }
 
         public ContactRepository(string dbPath)
         {
-            conn = new SQLiteAsyncConnection(dbPath);
-            conn.CreateTableAsync<Contact>().Wait();
+            database = new SQLiteAsyncConnection(dbPath);
+            database.CreateTableAsync<Contact>().Wait();
+            Contacts = new ObservableCollection<Contact>();
+        }
+
+        public Task<List<Contact>> GetItemsAsync()
+        {
+            return database.Table<Contact>().ToListAsync();
+        }
+
+        public Task<List<Contact>> GetItemsNotDoneAsync()
+        {
+            return database.QueryAsync<Contact>("SELECT * FROM [Contact] WHERE [Done] = 0");
+        }
+
+        public Task<Contact> GetItemAsync(int id)
+        {
+            return database.Table<Contact>().Where(i => i.ID == id).FirstOrDefaultAsync();
+        }
+
+        public Task<int> SaveItemAsync(Contact item)
+        {
+            if (item.ID != 0)
+            {
+                return database.UpdateAsync(item);
+            }
+            else
+            {
+                return database.InsertAsync(item);
+            }
+        }
+
+        public Task<int> DeleteItemAsync(Contact item)
+        {
+            return database.DeleteAsync(item);
         }
 
         public async Task AddNewContactAsync(string name, string phoneNumber)
@@ -30,7 +66,11 @@ namespace XamApp
                 if (string.IsNullOrEmpty(phoneNumber))
                     throw new Exception("Valid phone number required");
 
-                result = await conn.InsertAsync(new Contact { Name = name, PhoneNumber = phoneNumber});
+                Contact contact = new Contact { Name = name, PhoneNumber = phoneNumber };
+
+                result = await database.InsertAsync(contact);     
+     
+                Contacts.Add(contact);
 
                 StatusMessage = string.Format("{0} record(s) added [Name: {1})", result, name);
             }
@@ -44,7 +84,7 @@ namespace XamApp
         {
             try
             {
-                return await conn.Table<Contact>().ToListAsync();
+                return await database.Table<Contact>().ToListAsync();
             }
             catch (Exception ex)
             {

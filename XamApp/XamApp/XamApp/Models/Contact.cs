@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
+﻿using SQLite;
 
 namespace XamApp.Models
 {
+    
     public class Contact
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        [MaxLength(250), Unique]
+        public int ID { get; set; }
+        [MaxLength(100)]
         public string Name { get; set; }
-        [MaxLength(250), Unique]
+        [MaxLength(50)]
         public string PhoneNumber { get; set; }
     }
 }
