@@ -11,7 +11,7 @@ namespace XamApp
 
     public class ContactRepository
     {
-        public static IList<Contact> Contacts { get; private set; }
+        public static IList<Contact> Contacts { get; set; }
         SQLiteAsyncConnection database;
         public string StatusMessage { get; set; }
 
@@ -20,6 +20,9 @@ namespace XamApp
             database = new SQLiteAsyncConnection(dbPath);
             database.CreateTableAsync<Contact>().Wait();
             Contacts = new ObservableCollection<Contact>();
+
+            
+            
         }
 
         public Task<List<Contact>> GetItemsAsync()
@@ -67,10 +70,10 @@ namespace XamApp
                     throw new Exception("Valid phone number required");
 
                 Contact contact = new Contact { Name = name, PhoneNumber = phoneNumber };
-
-                result = await database.InsertAsync(contact);     
-     
                 Contacts.Add(contact);
+
+                result = await database.InsertAsync(contact);
+                
 
                 StatusMessage = string.Format("{0} record(s) added [Name: {1})", result, name);
             }

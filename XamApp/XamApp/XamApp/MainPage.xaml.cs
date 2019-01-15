@@ -15,18 +15,14 @@ namespace XamApp
     public partial class MainPage : ContentPage
     {
         bool isEditing;
-        
+        public ObservableCollection<Contact> Customers { get; set; }
+
         public MainPage()
         {
             InitializeComponent();
-
-            var contactGroups = ContactRepository.Contacts
-                .OrderBy(a => a.Name)
-                .ToLookup(a => a.Name[0].ToString());
-            BindingContext = contactGroups;
-
             contactsList.ItemsSource = ContactRepository.Contacts;
-        }
+            
+    }
 
         protected override void OnAppearing()
         {   
