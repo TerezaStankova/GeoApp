@@ -38,10 +38,6 @@
         <Label x:Name="statusMessage"
            Grid.Row="3" />
 
-        <Button Text="Get All Contacts"
-            Grid.Row="4"
-            Clicked="OnGetButtonClicked" />
-
         <ListView 
             x:Name="contactsList"
             Grid.Row="5"

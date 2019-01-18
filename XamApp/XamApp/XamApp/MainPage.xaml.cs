@@ -15,20 +15,18 @@ namespace XamApp
     public partial class MainPage : ContentPage
     {
         bool isEditing;
-        public ObservableCollection<Contact> Customers { get; set; }
+        public ObservableCollection<Contact> Contacts { get; set; }
 
         public MainPage()
         {
             InitializeComponent();
-            contactsList.ItemsSource = ContactRepository.Contacts;
-            
-    }
+            contactsList.ItemsSource = ContactRepository.Contacts;            
+        }
 
         protected override void OnAppearing()
-        {   
-            
+        {
+            App.ContactRepo.AddAllContactsAsync();
             contactsList.ItemsSource = ContactRepository.Contacts;
-
             base.OnAppearing();
         }
 
@@ -63,18 +61,10 @@ namespace XamApp
 
         public async void OnNewButtonClicked(object sender, EventArgs args)
         {
-            statusMessage.Text = "";
+            statusMessage.Text = "New contact";
 
             await App.ContactRepo.AddNewContactAsync(newName.Text, newPhoneNumber.Text);
             statusMessage.Text = App.ContactRepo.StatusMessage;
-        }
-
-        public async void OnGetButtonClicked(object sender, EventArgs args)
-        {
-            statusMessage.Text = "";
-            List<Contact> contacts = await App.ContactRepo.GetAllContactsAsync();
-            
-            contactsList.ItemsSource = contacts;
         }
 
         async Task<bool> DeleteContactAsync(Contact contact)

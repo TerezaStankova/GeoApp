@@ -19,10 +19,7 @@ namespace XamApp
         {
             database = new SQLiteAsyncConnection(dbPath);
             database.CreateTableAsync<Contact>().Wait();
-            Contacts = new ObservableCollection<Contact>();
-
-            
-            
+            Contacts = new ObservableCollection<Contact>();                      
         }
 
         public Task<List<Contact>> GetItemsAsync()
@@ -87,6 +84,7 @@ namespace XamApp
         {
             try
             {
+                Contacts = await database.Table<Contact>().ToListAsync();
                 return await database.Table<Contact>().ToListAsync();
             }
             catch (Exception ex)
@@ -96,5 +94,23 @@ namespace XamApp
 
             return new List<Contact>();
         }
+
+        public async void AddAllContactsAsync()
+        {
+            try
+            {
+                List<Contact> contacts;
+                contacts = await database.Table<Contact>().ToListAsync();
+                foreach (var contact in contacts) Contacts.Add(contact);                
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+            }
+        }
+
+
+
+
     }
 }
