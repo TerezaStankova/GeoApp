@@ -19,7 +19,7 @@ namespace XamApp
         {
             database = new SQLiteAsyncConnection(dbPath);
             database.CreateTableAsync<Contact>().Wait();
-            Contacts = new ObservableCollection<Contact>();                      
+            Contacts = new ObservableCollection<Contact>();
         }
 
         public Task<List<Contact>> GetItemsAsync()
@@ -111,9 +111,5 @@ namespace XamApp
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
             }
         }
-
-
-
-
     }
 }

@@ -39,11 +39,14 @@
            Grid.Row="3" />
 
         <ListView 
+            IsGroupingEnabled="True"
+            GroupDisplayBinding="{Binding Key}"
             x:Name="contactsList"
             Grid.Row="5"
             ItemTapped="OnItemTapped"
             ItemSelected="OnItemSelected"
-            HasUnevenRows="True">
+            HasUnevenRows="True"
+            GroupShortNameBinding="{Binding Key}">
 
             <ListView.Header>
                 <ContentView Padding="0,5" BackgroundColor="#3498db">

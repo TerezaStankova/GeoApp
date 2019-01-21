@@ -20,13 +20,13 @@ namespace XamApp
         public MainPage()
         {
             InitializeComponent();
-            contactsList.ItemsSource = ContactRepository.Contacts;            
+            contactsList.ItemsSource = ContactRepository.Contacts.ToLookup(a => a.Name[0].ToString().ToUpper());             
         }
 
         protected async override void OnAppearing()
         {
             await App.ContactRepo.AddAllContactsAsync();
-            contactsList.ItemsSource = ContactRepository.Contacts;
+            contactsList.ItemsSource = ContactRepository.Contacts.ToLookup(a => a.Name[0].ToString().ToUpper());
             base.OnAppearing();
         }
 
@@ -34,8 +34,7 @@ namespace XamApp
         {
             if (!isEditing)
             {
-                var contactSelected = (Contact)e.Item;
-                
+                var contactSelected = (Contact)e.Item;                
             }
         }
 
@@ -64,6 +63,7 @@ namespace XamApp
             statusMessage.Text = "New contact";
 
             await App.ContactRepo.AddNewContactAsync(newName.Text, newPhoneNumber.Text);
+            contactsList.ItemsSource = ContactRepository.Contacts.ToLookup(a => a.Name[0].ToString().ToUpper());
             statusMessage.Text = App.ContactRepo.StatusMessage;
         }
 
@@ -75,6 +75,7 @@ namespace XamApp
                 {
                     await App.ContactRepo.DeleteItemAsync(contact);
                     ContactRepository.Contacts.Remove(contact);
+                    contactsList.ItemsSource = ContactRepository.Contacts.ToLookup(a => a.Name[0].ToString().ToUpper());
                     return true;
                 }
             }
