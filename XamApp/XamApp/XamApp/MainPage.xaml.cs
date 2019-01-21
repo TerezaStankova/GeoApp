@@ -23,9 +23,9 @@ namespace XamApp
             contactsList.ItemsSource = ContactRepository.Contacts;            
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
-            App.ContactRepo.AddAllContactsAsync();
+            await App.ContactRepo.AddAllContactsAsync();
             contactsList.ItemsSource = ContactRepository.Contacts;
             base.OnAppearing();
         }

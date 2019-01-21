@@ -67,10 +67,13 @@ namespace XamApp
                     throw new Exception("Valid phone number required");
 
                 Contact contact = new Contact { Name = name, PhoneNumber = phoneNumber };
-                Contacts.Add(contact);
+               
 
                 result = await database.InsertAsync(contact);
-                
+                List<Contact> contacts;
+                contacts = await database.Table<Contact>().OrderBy(a => a.Name).ToListAsync();
+                Contacts.Clear();
+                foreach (var c in contacts) Contacts.Add(c);
 
                 StatusMessage = string.Format("{0} record(s) added [Name: {1})", result, name);
             }
@@ -84,8 +87,8 @@ namespace XamApp
         {
             try
             {
-                Contacts = await database.Table<Contact>().ToListAsync();
-                return await database.Table<Contact>().ToListAsync();
+                Contacts = await database.Table<Contact>().OrderBy(a => a.Name).ToListAsync();
+                return await database.Table<Contact>().OrderBy(a => a.Name).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -95,12 +98,12 @@ namespace XamApp
             return new List<Contact>();
         }
 
-        public async void AddAllContactsAsync()
+        public async Task AddAllContactsAsync()
         {
             try
             {
                 List<Contact> contacts;
-                contacts = await database.Table<Contact>().ToListAsync();
+                contacts = await database.Table<Contact>().OrderBy(a => a.Name).ToListAsync();
                 foreach (var contact in contacts) Contacts.Add(contact);                
             }
             catch (Exception ex)
